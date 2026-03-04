@@ -5,8 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 import { App } from "./App";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-const isDevelopment = import.meta.env.VITE_IS_DEVELOPMENT === "true";
+import { isDevelopment } from "./schemas/envSchema";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
