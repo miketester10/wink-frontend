@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useBooksSearch } from "../api/books";
 import { useGlobalStore } from "../store/globalStore";
 import { SearchBar } from "../components/SearchBar";
@@ -6,6 +6,7 @@ import { Spinner } from "../components/Spinner";
 import { ErrorAlert } from "../components/ErrorAlert";
 import { Paginator } from "../components/Paginator";
 import { BookCard } from "../components/BookCard";
+import { useDebounce } from "use-debounce";
 
 export const BookListPage = () => {
   const { search, setSearch, query, setQuery, page, setPage, pageSize, setPageSize } = useGlobalStore();
@@ -19,21 +20,16 @@ export const BookListPage = () => {
   const totalItems = data?.totalItems ?? 0;
   const items = data?.items ?? [];
 
-  const lastQueryRef = useRef(query);
-  // Debounce della ricerca: aspetta 600ms dopo l'ultima digitazione prima di eseguire la query.
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (search === lastQueryRef.current) return; // Se la query non è cambiata, non fare nulla.
-      lastQueryRef.current = search; // Aggiorna la query di riferimento.
-      setPage(1); // Resetta alla prima pagina ad ogni nuova ricerca
-      setPageSize(5); // Resetta al page size di default (5) ad ogni nuova ricerca
-      setQuery(search);
-    }, 600);
+  // Debounce dello stato search (600ms)
+  const [debouncedSearch] = useDebounce(search, 600);
 
-    return () => {
-      clearTimeout(timeoutId); // Pulisce il timeout precedente se l'utente digita di nuovo prima dei 400ms.
-    };
-  }, [search, setPage, setPageSize, setQuery]);
+  useEffect(() => {
+    if (debouncedSearch === query) return;
+
+    setPage(1);
+    setPageSize(5);
+    setQuery(debouncedSearch);
+  }, [debouncedSearch, query, setPage, setPageSize, setQuery]);
 
   return (
     <div>
