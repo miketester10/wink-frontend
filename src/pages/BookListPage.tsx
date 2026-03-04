@@ -24,12 +24,23 @@ export const BookListPage = () => {
   const [debouncedSearch] = useDebounce(search, 600);
 
   useEffect(() => {
-    if (debouncedSearch === query) return;
+    const resetSearch = (newQuery = "") => {
+      setPage(1);
+      setPageSize(5);
+      setQuery(newQuery);
+    };
 
-    setPage(1);
-    setPageSize(5);
-    setQuery(debouncedSearch);
-  }, [debouncedSearch, query, setPage, setPageSize, setQuery]);
+    if (search === "") {
+      // Se la barra di ricerca è vuota, resetta la query e la paginazione immediatamente (senza aspettare il debounce)
+      resetSearch();
+      return;
+    }
+
+    if (debouncedSearch !== query) {
+      // Se il valore debounced è diverso dalla query attuale, aggiorna la query e resetta la paginazione (qui si evita di aggiornare la query ad ogni battuta, ma solo dopo 600ms di inattività)
+      resetSearch(debouncedSearch);
+    }
+  }, [debouncedSearch, query, search, setPage, setPageSize, setQuery]);
 
   return (
     <div>
