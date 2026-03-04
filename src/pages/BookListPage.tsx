@@ -1,12 +1,11 @@
-import { useEffect } from "react";
-import { useBooksSearch } from "../api/books";
 import { useGlobalStore } from "../store/globalStore";
+import { useBooksSearch } from "../api/books";
+import { useDebouncedSearch } from "../hooks/useDebouncedSearch";
 import { SearchBar } from "../components/SearchBar";
 import { Spinner } from "../components/Spinner";
 import { ErrorAlert } from "../components/ErrorAlert";
 import { Paginator } from "../components/Paginator";
 import { BookCard } from "../components/BookCard";
-import { useDebounce } from "use-debounce";
 
 export const BookListPage = () => {
   const { search, setSearch, query, setQuery, page, setPage, pageSize, setPageSize } = useGlobalStore();
@@ -17,30 +16,10 @@ export const BookListPage = () => {
     pageSize,
   });
 
-  const totalItems = data?.totalItems ?? 0;
+  useDebouncedSearch({ search, query, setQuery, setPage, setPageSize });
+
   const items = data?.items ?? [];
-
-  // Debounce dello stato search (600ms)
-  const [debouncedSearch] = useDebounce(search, 600);
-
-  useEffect(() => {
-    const resetSearch = (newQuery = "") => {
-      setPage(1);
-      setPageSize(5);
-      setQuery(newQuery);
-    };
-
-    if (search === "") {
-      // Se la barra di ricerca è vuota, resetta la query e la paginazione immediatamente (senza aspettare il debounce)
-      resetSearch();
-      return;
-    }
-
-    if (debouncedSearch !== query) {
-      // Se il valore debounced è diverso dalla query attuale, aggiorna la query e resetta la paginazione (qui si evita di aggiornare la query ad ogni battuta, ma solo dopo 600ms di inattività)
-      resetSearch(debouncedSearch);
-    }
-  }, [debouncedSearch, query, search, setPage, setPageSize, setQuery]);
+  const totalItems = data?.totalItems ?? 0;
 
   return (
     <div>
