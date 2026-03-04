@@ -37,7 +37,7 @@ export const BookListPage = () => {
       <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-50">Ricerca libri</h2>
-          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Cerca tra i risultati di Google Books e apri il dettaglio di ciascun volume.</p>
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Cerca tra i risultati di Google Books e apri il dettaglio di ciascun libro.</p>
         </div>
       </div>
 
