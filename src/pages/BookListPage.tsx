@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useBooksSearch } from "../api/books";
 import { useGlobalStore } from "../store/globalStore";
 import { SearchBar } from "../components/SearchBar";
@@ -19,9 +19,12 @@ export const BookListPage = () => {
   const totalItems = data?.totalItems ?? 0;
   const items = data?.items ?? [];
 
-  // Debounce della ricerca: aspetta 400ms dopo l'ultima digitazione prima di eseguire la query.
+  const lastQueryRef = useRef(query);
+  // Debounce della ricerca: aspetta 600ms dopo l'ultima digitazione prima di eseguire la query.
   useEffect(() => {
     const timeoutId = setTimeout(() => {
+      if (search === lastQueryRef.current) return; // Se la query non è cambiata, non fare nulla.
+      lastQueryRef.current = search; // Aggiorna la query di riferimento.
       setPage(1); // Resetta alla prima pagina ad ogni nuova ricerca
       setPageSize(5); // Resetta al page size di default (5) ad ogni nuova ricerca
       setQuery(search);
