@@ -31,13 +31,12 @@ export const useGlobalStore = create<GlobalStoreState>()(
       setPage: (page) => set({ page }),
       setPageSize: (size) => set({ pageSize: size }),
       setSearch: (search) => set({ search }),
-      setQuery: (query) => set({ query }),
+      setQuery: (query) => set({ query: query.toLocaleLowerCase() }),
     }),
     {
       name: "wink-ui-settings",
       partialize: (state) => ({
         darkMode: state.darkMode,
-        pageSize: state.pageSize,
       }),
     },
   ),

@@ -23,13 +23,14 @@ export const BookListPage = () => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setPage(1); // Resetta alla prima pagina ad ogni nuova ricerca
+      setPageSize(5); // Resetta al page size di default (5) ad ogni nuova ricerca
       setQuery(search);
     }, 400);
 
     return () => {
       clearTimeout(timeoutId); // Pulisce il timeout precedente se l'utente digita di nuovo prima dei 400ms.
     };
-  }, [search, setQuery, setPage]);
+  }, [search, setPage, setPageSize, setQuery]);
 
   return (
     <div>
