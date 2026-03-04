@@ -5,21 +5,33 @@ export type PageSize = 5 | 10 | 15 | 20;
 
 interface UiState {
   darkMode: boolean;
+  page: number;
   pageSize: PageSize;
+  search: string;
+  query: string;
   toggleDarkMode: () => void;
+  setPage: (page: number) => void;
   setPageSize: (size: PageSize) => void;
+  setSearch: (search: string) => void;
+  setQuery: (query: string) => void;
 }
 
 export const useUiStore = create<UiState>()(
   persist(
     (set) => ({
       darkMode: false,
-      pageSize: 10,
+      page: 1,
+      pageSize: 5,
+      search: "",
+      query: "",
       toggleDarkMode: () =>
         set((state) => ({
           darkMode: !state.darkMode,
         })),
+      setPage: (page) => set({ page }),
       setPageSize: (size) => set({ pageSize: size }),
+      setSearch: (search) => set({ search }),
+      setQuery: (query) => set({ query }),
     }),
     {
       name: "wink-ui-settings",

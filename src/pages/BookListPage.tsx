@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useBooksSearch } from "../api/books";
 import { useUiStore } from "../store/uiStore";
 import { SearchBar } from "../components/SearchBar";
@@ -8,10 +8,7 @@ import { Paginator } from "../components/Paginator";
 import { BookCard } from "../components/BookCard";
 
 export const BookListPage = () => {
-  const [search, setSearch] = useState("");
-  const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
-  const { pageSize, setPageSize } = useUiStore();
+  const { search, setSearch, query, setQuery, page, setPage, pageSize, setPageSize } = useUiStore();
 
   const { data, isLoading, isError } = useBooksSearch({
     query,
@@ -30,9 +27,9 @@ export const BookListPage = () => {
     }, 400);
 
     return () => {
-      clearTimeout(timeoutId); // Pulisce il timeout precedente se l'utente digita di nuovo prima dei 400ms. Evita chiamate API inutili durante la digitazione e memory leak.
+      clearTimeout(timeoutId); // Pulisce il timeout precedente se l'utente digita di nuovo prima dei 400ms.
     };
-  }, [search]);
+  }, [search, setQuery, setPage]);
 
   return (
     <div>

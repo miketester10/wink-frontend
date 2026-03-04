@@ -8,7 +8,6 @@ interface SearchParams {
   pageSize: number;
 }
 
-
 export const useBooksSearch = ({ query, page, pageSize }: SearchParams) => {
   return useQuery({
     queryKey: ["books", query, page, pageSize],
@@ -17,10 +16,9 @@ export const useBooksSearch = ({ query, page, pageSize }: SearchParams) => {
       const startIndex = (page - 1) * pageSize;
       const response = await apiClient.get<BooksResponse>("/volumes", {
         params: {
-          q: query, 
-          startIndex, 
+          q: query,
+          startIndex,
           maxResults: pageSize,
-          key: import.meta.env.VITE_GOOGLE_BOOKS_API_KEY,
         },
       });
       return response.data;
