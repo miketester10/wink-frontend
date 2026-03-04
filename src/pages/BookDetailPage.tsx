@@ -3,6 +3,7 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import { useBookDetail } from "../api/books";
 import { Spinner } from "../components/Spinner";
 import { ErrorAlert } from "../components/ErrorAlert";
+import NoImageAvailable from "../assets/No_Image_Available.jpg";
 
 export const BookDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -30,13 +31,12 @@ export const BookDetailPage = () => {
 
       <div className="mt-2 grid gap-6 md:grid-cols-[minmax(0,220px)_minmax(0,1fr)]">
         <div>
-          {imageLinks?.thumbnail && (
-            <img
-              src={imageLinks.thumbnail}
-              alt={title}
-              className="w-full max-w-xs rounded-xl border border-slate-200 bg-slate-100 object-cover shadow-sm dark:border-slate-700 dark:bg-slate-900"
-            />
-          )}
+          <img
+            src={imageLinks?.thumbnail ?? NoImageAvailable}
+            alt={title}
+            onError={(e) => (e.currentTarget.src = NoImageAvailable)}
+            className="w-full max-w-xs rounded-xl border border-slate-200 bg-slate-100 object-cover shadow-sm dark:border-slate-700 dark:bg-slate-900"
+          />
         </div>
 
         <div>
