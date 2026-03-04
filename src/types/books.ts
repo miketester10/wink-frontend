@@ -1,6 +1,5 @@
 export interface VolumeInfo {
   title: string;
-  subtitle?: string;
   authors?: string[];
   description?: string;
   imageLinks?: {
@@ -21,4 +20,3 @@ export interface BooksResponse {
   totalItems: number;
   items?: BookItem[];
 }
-
