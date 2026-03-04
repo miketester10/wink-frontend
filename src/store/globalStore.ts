@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 export type PageSize = 5 | 10 | 15 | 20;
 
-interface UiState {
+interface GlobalStoreState {
   darkMode: boolean;
   page: number;
   pageSize: PageSize;
@@ -16,7 +16,7 @@ interface UiState {
   setQuery: (query: string) => void;
 }
 
-export const useUiStore = create<UiState>()(
+export const useGlobalStore = create<GlobalStoreState>()(
   persist(
     (set) => ({
       darkMode: false,

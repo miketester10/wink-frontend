@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useBooksSearch } from "../api/books";
-import { useUiStore } from "../store/uiStore";
+import { useGlobalStore } from "../store/globalStore";
 import { SearchBar } from "../components/SearchBar";
 import { Spinner } from "../components/Spinner";
 import { ErrorAlert } from "../components/ErrorAlert";
@@ -8,7 +8,7 @@ import { Paginator } from "../components/Paginator";
 import { BookCard } from "../components/BookCard";
 
 export const BookListPage = () => {
-  const { search, setSearch, query, setQuery, page, setPage, pageSize, setPageSize } = useUiStore();
+  const { search, setSearch, query, setQuery, page, setPage, pageSize, setPageSize } = useGlobalStore();
 
   const { data, isLoading, isError } = useBooksSearch({
     query,

@@ -1,4 +1,4 @@
-import type { PageSize } from "../store/uiStore";
+import type { PageSize } from "../store/globalStore";
 
 interface PaginatorProps {
   currentPage: number;
