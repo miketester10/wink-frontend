@@ -19,7 +19,7 @@ interface GlobalStoreState {
 export const useGlobalStore = create<GlobalStoreState>()(
   persist(
     (set) => ({
-      darkMode: false,
+      darkMode: true,
       page: 1,
       pageSize: 5,
       search: "",
