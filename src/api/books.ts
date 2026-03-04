@@ -19,6 +19,7 @@ export const useBooksSearch = ({ query, page, pageSize }: SearchParams) => {
           q: query,
           startIndex,
           maxResults: pageSize,
+          orderBy: "relevance",
         },
       });
       return response.data;
