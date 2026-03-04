@@ -5,7 +5,7 @@ import { BookItem } from "../types/books";
 export const useBookDetail = (id: string | undefined) => {
   return useQuery({
     queryKey: ["book", id],
-    enabled: Boolean(id),
+    enabled: !!id,
     queryFn: async (): Promise<BookItem> => {
       const response = await apiClient.get<BookItem>(`/volumes/${id}`);
       return response.data;
