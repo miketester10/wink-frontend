@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ExternalLink } from "lucide-react";
-import { useBookDetail } from "../api/books";
+import { useBookDetail } from "../hooks/useBookDetail";
 import { Spinner } from "../components/Spinner";
 import { ErrorAlert } from "../components/ErrorAlert";
 import NoImageAvailable from "../assets/No_Image_Available.jpg";

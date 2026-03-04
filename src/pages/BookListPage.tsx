@@ -1,5 +1,5 @@
 import { useGlobalStore } from "../store/globalStore";
-import { useBooksSearch } from "../api/books";
+import { useBooksSearch } from "../hooks/useBooksSearch";
 import { useDebouncedSearch } from "../hooks/useDebouncedSearch";
 import { SearchBar } from "../components/SearchBar";
 import { Spinner } from "../components/Spinner";

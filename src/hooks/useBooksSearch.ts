@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { apiClient } from "./client";
-import { BooksResponse, BookItem } from "../types/books";
+import { apiClient } from "../api/client";
+import { BooksResponse } from "../types/books";
 
 interface SearchParams {
   query: string;
@@ -12,7 +12,7 @@ export const useBooksSearch = ({ query, page, pageSize }: SearchParams) => {
   return useQuery({
     queryKey: ["books", query, page, pageSize],
     enabled: query.trim().length > 0, // Esegui la query solo se la stringa di ricerca non è vuota
-    queryFn: async () => {
+    queryFn: async (): Promise<BooksResponse> => {
       const startIndex = (page - 1) * pageSize;
       const response = await apiClient.get<BooksResponse>("/volumes", {
         params: {
@@ -22,17 +22,6 @@ export const useBooksSearch = ({ query, page, pageSize }: SearchParams) => {
           orderBy: "relevance",
         },
       });
-      return response.data;
-    },
-  });
-};
-
-export const useBookDetail = (id: string | undefined) => {
-  return useQuery({
-    queryKey: ["book", id],
-    enabled: Boolean(id),
-    queryFn: async (): Promise<BookItem> => {
-      const response = await apiClient.get<BookItem>(`/volumes/${id}`);
       return response.data;
     },
   });
