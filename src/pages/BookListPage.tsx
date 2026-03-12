@@ -1,22 +1,30 @@
 import { useGlobalStore } from "../store/globalStore";
 import { useBooksSearch } from "../hooks/useBooksSearch";
-import { useDebouncedSearch } from "../hooks/useDebouncedSearch";
 import { SearchBar } from "../components/SearchBar";
 import { Spinner } from "../components/Spinner";
 import { ErrorAlert } from "../components/ErrorAlert";
 import { Paginator } from "../components/Paginator";
 import { BookCard } from "../components/BookCard";
+import { useDebounce } from "use-debounce";
+import { useEffect } from "react";
 
 export const BookListPage = () => {
-  const { search, setSearch, query, setQuery, page, setPage, pageSize, setPageSize } = useGlobalStore();
+  const { search, setSearch, page, setPage, pageSize, setPageSize } = useGlobalStore();
+
+  useEffect(() => {
+    if (search === "") {
+      setPage(1);
+      setPageSize(5);
+    }
+  }, [search]);
+
+  const [debouncedSearch] = useDebounce(search, 600);
 
   const { data, isLoading, isError } = useBooksSearch({
-    query,
+    search: search ? debouncedSearch : search,
     page,
     pageSize,
   });
-
-  useDebouncedSearch({ search, query, setQuery, setPage, setPageSize });
 
   const items = data?.items ?? [];
   const totalItems = data?.totalItems ?? 0;
@@ -36,7 +44,9 @@ export const BookListPage = () => {
 
       {isError && <ErrorAlert message={"Errore durante il caricamento."} />}
 
-      {!isLoading && !isError && items.length === 0 && query && <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Nessun risultato trovato.</p>}
+      {!isLoading && !isError && items.length === 0 && search && search === debouncedSearch && (
+        <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Nessun risultato trovato.</p>
+      )}
 
       <div className="mt-3">
         {items.map((book) => (

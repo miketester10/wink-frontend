@@ -8,12 +8,10 @@ interface GlobalStoreState {
   page: number;
   pageSize: PageSize;
   search: string;
-  query: string;
   toggleDarkMode: () => void;
   setPage: (page: number) => void;
   setPageSize: (size: PageSize) => void;
   setSearch: (search: string) => void;
-  setQuery: (query: string) => void;
 }
 
 export const useGlobalStore = create<GlobalStoreState>()(
@@ -23,7 +21,6 @@ export const useGlobalStore = create<GlobalStoreState>()(
       page: 1,
       pageSize: 5,
       search: "",
-      query: "",
       toggleDarkMode: () =>
         set((state) => ({
           darkMode: !state.darkMode,
@@ -31,7 +28,6 @@ export const useGlobalStore = create<GlobalStoreState>()(
       setPage: (page) => set({ page }),
       setPageSize: (size) => set({ pageSize: size }),
       setSearch: (search) => set({ search }),
-      setQuery: (query) => set({ query: query.toLocaleLowerCase() }),
     }),
     {
       name: "wink-ui-settings",
